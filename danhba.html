@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784628582 -->
+<!-- Build Timestamp: 1784629213 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11461,7 +11461,7 @@ const MARINE_CONTACTS = [
             displayContacts(match.section);
         }
 
-        // LIVE SEARCH & DISPLAY LOGIC
+        // LIVE SEARCH & DISPLAY LOGIC (Omitted all city/district names from dropdown results & search display)
         searchInput.addEventListener("input", (e) => {
             const query = e.target.value.trim();
             const queryClean = removeDiacritics(query.toLowerCase());
@@ -11486,14 +11486,14 @@ const MARINE_CONTACTS = [
                 const cleanSecName = removeDiacritics(section.name.toLowerCase());
                 const cleanSecType = removeDiacritics(section.type.toLowerCase());
                 const fullSecName = `${cleanSecType} ${cleanSecName}`;
-                const cleanDistrict = removeDiacritics(section.district.toLowerCase());
 
-                if (fullSecName.includes(queryClean) || cleanSecName.includes(queryClean) || cleanDistrict.includes(queryClean)) {
+                // Search strictly on Ward/Commune name only (Omit City/District search matching)
+                if (fullSecName.includes(queryClean) || cleanSecName.includes(queryClean)) {
                     matches.push({
                         type: "new",
                         section: section,
                         matchedName: `${toTitleCase(section.type)} ${toTitleCase(section.name)}`,
-                        displayText: `${toTitleCase(section.type)} ${toTitleCase(section.name)}, ${toTitleCase(section.district)}`
+                        displayText: `${toTitleCase(section.type)} ${toTitleCase(section.name)}`
                     });
                 }
 
@@ -11505,7 +11505,7 @@ const MARINE_CONTACTS = [
                             type: "old",
                             section: section,
                             matchedName: `${compType} ${toTitleCase(comp)}`,
-                            displayText: `${compType} ${toTitleCase(comp)} (${toTitleCase(section.district)}), nay là ${section.type.toLowerCase()} ${toTitleCase(section.name)}`
+                            displayText: `${compType} ${toTitleCase(comp)}, nay là ${section.type.toLowerCase()} ${toTitleCase(section.name)}`
                         });
                     }
                 });
@@ -11574,7 +11574,7 @@ const MARINE_CONTACTS = [
                         const header = document.createElement("div");
                         header.className = "card-header";
                         header.style.color = "var(--accent-amber)";
-                        header.innerHTML = `📌 ${section.type} ${section.name} (${section.district}) - ${section.team}`;
+                        header.innerHTML = `📌 ${section.type} ${section.name} - ${section.team}`;
                         card.appendChild(header);
 
                         const body = document.createElement("div");
