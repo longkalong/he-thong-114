@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784624041 -->
+<!-- Build Timestamp: 1784624200 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -538,7 +538,7 @@
 
         <!-- EXPANDABLE ACCORDION SECTION 1: LEADERSHIP -->
         <div class="accordion-card" id="section-leadership">
-            <button type="button" class="accordion-header red-theme" id="toggle-leadership">
+            <button type="button" class="accordion-header red-theme" id="btn-toggle-leadership">
                 <span class="acc-title">📞 BGĐ CA TỈNH & LÃNH ĐẠO PC07</span>
                 <span class="acc-arrow" id="arrow-leadership">▼</span>
             </button>
@@ -549,7 +549,7 @@
 
         <!-- EXPANDABLE ACCORDION SECTION 2: MARINE -->
         <div class="accordion-card" id="section-marine">
-            <button type="button" class="accordion-header blue-theme" id="toggle-marine">
+            <button type="button" class="accordion-header blue-theme" id="btn-toggle-marine">
                 <span class="acc-title">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</span>
                 <span class="acc-arrow" id="arrow-marine">▼</span>
             </button>
@@ -11381,7 +11381,7 @@ const MARINE_CONTACTS = [
 
         // Accordion 1
         const sectionLeadership = document.getElementById("section-leadership");
-        const toggleLeadership = document.getElementById("toggle-leadership");
+        const btnToggleLeadership = document.getElementById("btn-toggle-leadership");
         const containerLeadership = document.getElementById("container-leadership");
         const arrowLeadership = document.getElementById("arrow-leadership");
         const leadershipList = document.getElementById("leadership-list");
@@ -11389,7 +11389,7 @@ const MARINE_CONTACTS = [
 
         // Accordion 2
         const sectionMarine = document.getElementById("section-marine");
-        const toggleMarine = document.getElementById("toggle-marine");
+        const btnToggleMarine = document.getElementById("btn-toggle-marine");
         const containerMarine = document.getElementById("container-marine");
         const arrowMarine = document.getElementById("arrow-marine");
         const marineList = document.getElementById("marine-list");
@@ -11737,7 +11737,7 @@ const MARINE_CONTACTS = [
         });
 
         // Accordion Toggle Functions
-        function toggleLeadership(show) {
+        function toggleLeadershipFunc(show) {
             const isHidden = containerLeadership.classList.contains("hidden");
             const shouldShow = show !== undefined ? show : isHidden;
             if (shouldShow) {
@@ -11752,7 +11752,7 @@ const MARINE_CONTACTS = [
             }
         }
 
-        function toggleMarine(show) {
+        function toggleMarineFunc(show) {
             const isHidden = containerMarine.classList.contains("hidden");
             const shouldShow = show !== undefined ? show : isHidden;
             if (shouldShow) {
@@ -11767,11 +11767,11 @@ const MARINE_CONTACTS = [
             }
         }
 
-        toggleLeadership.addEventListener("click", () => toggleLeadership());
-        btnNavLeadership.addEventListener("click", () => toggleLeadership(true));
+        btnToggleLeadership.addEventListener("click", () => toggleLeadershipFunc());
+        btnNavLeadership.addEventListener("click", () => toggleLeadershipFunc(true));
 
-        toggleMarine.addEventListener("click", () => toggleMarine());
-        btnNavMarine.addEventListener("click", () => toggleMarine(true));
+        btnToggleMarine.addEventListener("click", () => toggleMarineFunc());
+        btnNavMarine.addEventListener("click", () => toggleMarineFunc(true));
     });
     </script>
 </body>
