@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784624419 -->
+<!-- Build Timestamp: 1784628582 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -214,36 +214,6 @@
             font-size: 0.78rem;
             color: var(--accent-amber);
             font-weight: 600;
-        }
-
-        /* HORIZONTAL SCROLL CHIPS */
-        .chips-scroll {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            padding-bottom: 2px;
-        }
-
-        .chips-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .chip-btn {
-            white-space: nowrap;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: #cbd5e1;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .chip-btn:active {
-            background: #253350;
-            border-color: var(--border-active);
         }
 
         /* TEAM BADGE BANNER */
@@ -509,18 +479,6 @@
             </div>
             <!-- DROPDOWN -->
             <div class="autocomplete-dropdown hidden" id="dropdown-list"></div>
-        </div>
-
-        <!-- QUICK CHIPS -->
-        <div class="chips-scroll">
-            <button class="chip-btn" data-query="Hạ Long">Hạ Long</button>
-            <button class="chip-btn" data-query="Cẩm Phả">Cẩm Phả</button>
-            <button class="chip-btn" data-query="Uông Bí">Uông Bí</button>
-            <button class="chip-btn" data-query="Móng Cái">Móng Cái</button>
-            <button class="chip-btn" data-query="Quảng Yên">Quảng Yên</button>
-            <button class="chip-btn" data-query="Đông Triều">Đông Triều</button>
-            <button class="chip-btn" data-query="Tiên Yên">Tiên Yên</button>
-            <button class="chip-btn" data-query="Vân Đồn">Vân Đồn</button>
         </div>
 
         <!-- TEAM BANNER -->
@@ -11378,7 +11336,6 @@ const MARINE_CONTACTS = [
         const teamBanner = document.getElementById("team-banner");
         const teamValue = document.getElementById("team-value");
         const contactsList = document.getElementById("contacts-list");
-        const chipBtns = document.querySelectorAll(".chip-btn");
 
         // Accordion 1
         const sectionLeadership = document.getElementById("section-leadership");
@@ -11411,7 +11368,7 @@ const MARINE_CONTACTS = [
                       .join(" ");
         }
 
-        // Format phone regex matches into <a> links (Original working format)
+        // Format phone regex matches into <a> links
         function formatPhoneLinks(text) {
             if (!text) return "";
             const phoneRegex = /([0-9](3, 5)[\.\s]?[0-9](3, 4)[\.\s]?[0-9](3, 4)|0[0-9](8, 11))/g;
@@ -11421,7 +11378,7 @@ const MARINE_CONTACTS = [
             });
         }
 
-        // Render Contact Item: Name above, Phone link below (Original working logic)
+        // Render Contact Item: Name above, Phone link below
         function parseContactItem(text) {
             if (!text) return "";
             const cleanText = text.replace(/^[-*\s]+/, "").trim();
@@ -11668,15 +11625,6 @@ const MARINE_CONTACTS = [
                 </div>
             `;
             searchInput.focus();
-        });
-
-        chipBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const q = btn.getAttribute("data-query");
-                searchInput.value = q;
-                searchInput.dispatchEvent(new Event("input"));
-                searchInput.focus();
-            });
         });
 
         const hideSuggestions = (e) => {
