@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784623656 -->
+<!-- Build Timestamp: 1784624041 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11395,8 +11395,6 @@ const MARINE_CONTACTS = [
         const marineList = document.getElementById("marine-list");
         const btnNavMarine = document.getElementById("btn-nav-marine");
 
-        let currentMatches = [];
-
         function removeDiacritics(str) {
             if (!str) return "";
             return str.normalize("NFD")
@@ -11505,9 +11503,12 @@ const MARINE_CONTACTS = [
             displayContacts(match.section);
         }
 
+        // LIVE SEARCH & DISPLAY LOGIC (Fixes typing not showing results)
         searchInput.addEventListener("input", (e) => {
             const query = e.target.value.trim();
-            if (!query) {
+            const queryClean = removeDiacritics(query.toLowerCase());
+
+            if (!queryClean) {
                 btnClear.classList.remove("visible");
                 dropdownList.classList.add("hidden");
                 teamBanner.classList.add("hidden");
@@ -11517,20 +11518,19 @@ const MARINE_CONTACTS = [
                         <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc bấm chọn bên dưới để xem danh bạ.</div>
                     </div>
                 `;
-                currentMatches = [];
                 return;
             }
 
             btnClear.classList.add("visible");
-            const queryClean = removeDiacritics(query.toLowerCase());
             const matches = [];
 
             SECTIONS_DATA.forEach(section => {
                 const cleanSecName = removeDiacritics(section.name.toLowerCase());
                 const cleanSecType = removeDiacritics(section.type.toLowerCase());
                 const fullSecName = `${cleanSecType} ${cleanSecName}`;
+                const cleanDistrict = removeDiacritics(section.district.toLowerCase());
 
-                if (fullSecName.includes(queryClean) || cleanSecName.includes(queryClean)) {
+                if (fullSecName.includes(queryClean) || cleanSecName.includes(queryClean) || cleanDistrict.includes(queryClean)) {
                     matches.push({
                         type: "new",
                         section: section,
@@ -11552,8 +11552,6 @@ const MARINE_CONTACTS = [
                     }
                 });
             });
-
-            currentMatches = matches;
 
             if (matches.length > 0) {
                 dropdownList.innerHTML = "";
@@ -11587,23 +11585,73 @@ const MARINE_CONTACTS = [
                 });
                 dropdownList.classList.remove("hidden");
 
-                // Auto match exact
-                const exactMatch = matches.find(m => removeDiacritics(m.matchedName.toLowerCase()) === queryClean);
-                if (exactMatch) {
-                    selectMatch(exactMatch);
-                }
+                // INSTANTLY DISPLAY TOP MATCHED SECTION LIVE AS USER TYPES
+                displayContacts(matches[0].section);
             } else {
                 dropdownList.classList.add("hidden");
+
+                // GLOBAL SEARCH FALLBACK (Search across all officers/phone numbers)
+                let globalFound = false;
+                contactsList.innerHTML = "";
+                teamBanner.classList.add("hidden");
+
+                SECTIONS_DATA.forEach(section => {
+                    let sectionMatches = [];
+                    section.subsections.forEach(sub => {
+                        let mContacts = sub.contacts.filter(c => removeDiacritics(c.text.toLowerCase()).includes(queryClean));
+                        if (mContacts.length > 0) {
+                            sectionMatches.push({
+                                title: sub.title,
+                                contacts: mContacts
+                            });
+                        }
+                    });
+
+                    if (sectionMatches.length > 0) {
+                        globalFound = true;
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        card.style.borderColor = "var(--accent-amber)";
+
+                        const header = document.createElement("div");
+                        header.className = "card-header";
+                        header.style.color = "var(--accent-amber)";
+                        header.innerHTML = `📌 ${section.type} ${section.name} (${section.district}) - ${section.team}`;
+                        card.appendChild(header);
+
+                        const body = document.createElement("div");
+                        body.className = "card-body";
+
+                        sectionMatches.forEach(sm => {
+                            sm.contacts.forEach(c => {
+                                const row = document.createElement("div");
+                                row.className = "contact-row";
+                                row.innerHTML = parseContactItem(c.text);
+                                body.appendChild(row);
+                            });
+                        });
+
+                        card.appendChild(body);
+                        contactsList.appendChild(card);
+                    }
+                });
+
+                if (!globalFound) {
+                    contactsList.innerHTML = `
+                        <div class="empty-prompt">
+                            <div class="ep-icon">❓</div>
+                            <div class="ep-text">Không tìm thấy kết quả phù hợp với từ khóa "${query}".</div>
+                        </div>
+                    `;
+                }
             }
         });
 
         searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                if (currentMatches.length > 0) {
-                    selectMatch(currentMatches[0]);
-                    searchInput.blur();
-                }
+                searchInput.blur();
+                dropdownList.classList.add("hidden");
             }
         });
 
@@ -11618,7 +11666,6 @@ const MARINE_CONTACTS = [
                     <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc bấm chọn bên dưới để xem danh bạ.</div>
                 </div>
             `;
-            currentMatches = [];
             searchInput.focus();
         });
 
