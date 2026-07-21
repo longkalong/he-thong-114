@@ -1,8 +1,12 @@
 <!DOCTYPE html>
+<!-- Build Timestamp: 1784622964 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Danh Bạ 114 Quảng Ninh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11408,40 +11412,39 @@ const MARINE_CONTACTS = [
                       .join(" ");
         }
 
-        // Format and parse text into Title + Tap-to-Call Buttons
+        // Robust parser: Converts any phone number pattern into a green tap-to-call button
         function parseContactItem(text) {
             if (!text) return "";
-            const phoneRegex = /([0-9](3, 5)[\.\s]?[0-9](3, 4)[\.\s]?[0-9](3, 4)|0[0-9](8, 11))/g;
-            const parts = text.split(/; SĐT:|SĐT:|; số điện thoại:|số điện thoại:/i);
+            const phoneRegex = /(?:tel:)?(?:\+84|0)[0-9\.\s](8, 14)[0-9]/g;
+            let cleanText = text.replace(/^[-*\s]+/, "").trim();
 
-            if (parts.length > 1) {
-                const title = parts[0].replace(/^[-*\s]+/, "").trim();
-                const phonesText = parts[1].trim();
-                const phones = phonesText.split(/[,;/]+/);
+            const matches = cleanText.match(phoneRegex);
 
-                const phoneButtons = phones.map(p => {
-                    const rawP = p.trim();
-                    const cleanP = rawP.replace(/[\.\s]/g, "");
-                    return `<a href="tel:${cleanP}" class="call-btn">📞 ${rawP}</a>`;
+            if (matches && matches.length > 0) {
+                let titleText = cleanText;
+                matches.forEach(m => {
+                    titleText = titleText.replace(m, "");
+                });
+                
+                titleText = titleText.replace(/;\s*SĐT:\s*$/i, "")
+                                     .replace(/SĐT:\s*$/i, "")
+                                     .replace(/;\s*số điện thoại:\s*$/i, "")
+                                     .replace(/;\s*$/i, "")
+                                     .replace(/:\s*$/i, "")
+                                     .trim();
+
+                const phoneButtons = matches.map(phoneStr => {
+                    const rawPhone = phoneStr.replace(/^tel:/i, "").trim();
+                    const cleanDigits = rawPhone.replace(/[^0-9+]/g, "");
+                    return `<a href="tel:${cleanDigits}" class="call-btn">📞 ${rawPhone}</a>`;
                 }).join(" ");
 
                 return `
-                    <div class="c-name">${title}</div>
+                    <div class="c-name">${titleText || cleanText}</div>
                     <div class="c-phones">${phoneButtons}</div>
                 `;
             } else {
-                // Replace any phone match inside string with call-btn
-                const cleanText = text.replace(/^[-*\s]+/, "").trim();
-                const hasPhone = phoneRegex.test(cleanText);
-                if (hasPhone) {
-                    const formatted = cleanText.replace(phoneRegex, (phone) => {
-                        const cleanPhone = phone.replace(/[\.\s]/g, "");
-                        return `<a href="tel:${cleanPhone}" class="call-btn">📞 ${phone}</a>`;
-                    });
-                    return `<div class="c-name">${formatted}</div>`;
-                } else {
-                    return `<div class="c-name">${cleanText}</div>`;
-                }
+                return `<div class="c-name">${cleanText}</div>`;
             }
         }
 
@@ -11636,7 +11639,7 @@ const MARINE_CONTACTS = [
         document.addEventListener("pointerdown", hideSuggestions);
         document.addEventListener("click", hideSuggestions);
 
-        // Modals Rendering with parseContactItem
+        // Modals Rendering with robust parseContactItem
         btnLeadership.addEventListener("click", () => {
             bodyLeadership.innerHTML = "";
             LEADERSHIP_DATA.forEach(group => {
