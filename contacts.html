@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784623253 -->
+<!-- Build Timestamp: 1784623439 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -36,13 +36,17 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-bottom: 84px; /* Space for bottom navbar */
+            padding-bottom: 90px; /* Space for bottom navbar */
             -webkit-font-smoothing: antialiased;
         }
 
@@ -89,7 +93,7 @@
             padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
@@ -270,6 +274,33 @@
             color: var(--accent-red);
         }
 
+        /* SECTION TITLE DIVIDERS */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            scroll-margin-top: 70px;
+        }
+
+        .section-divider-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .section-divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
         /* CONTACT CARDS */
         .contacts-wrapper {
             display: flex;
@@ -356,7 +387,7 @@
         /* EMPTY STATE */
         .empty-prompt {
             text-align: center;
-            padding: 30px 16px;
+            padding: 24px 16px;
             background: var(--bg-card);
             border: 1px dashed var(--border-color);
             border-radius: var(--radius);
@@ -364,8 +395,8 @@
         }
 
         .ep-icon {
-            font-size: 2.5rem;
-            margin-bottom: 8px;
+            font-size: 2.2rem;
+            margin-bottom: 6px;
         }
 
         .ep-text {
@@ -373,7 +404,7 @@
             line-height: 1.4;
         }
 
-        /* BOTTOM NAVBAR FOR MOBILE */
+        /* BOTTOM NAVBAR FOR MOBILE (SMOOTH SCROLL JUMP) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -402,6 +433,7 @@
             font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
+            text-decoration: none;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -420,80 +452,6 @@
             border-color: rgba(59, 130, 246, 0.5);
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(21, 29, 48, 0.9) 100%);
             color: #93c5fd;
-        }
-
-        /* MODAL FULLSCREEN MOBILE SHEET FIX FOR IOS & ZALO WEBVIEW */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .modal-overlay.hidden {
-            display: none;
-        }
-
-        .modal-sheet {
-            background: var(--bg-body);
-            border-top: 1px solid var(--border-color);
-            border-radius: 20px 20px 0 0;
-            width: 100%;
-            max-width: 600px;
-            height: 85vh;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: slideUp 0.25s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        .sheet-header {
-            flex-shrink: 0;
-            padding: 14px 16px;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sheet-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .btn-sheet-close {
-            background: #2a374e;
-            border: none;
-            color: #94a3b8;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .sheet-body {
-            flex: 1;
-            min-height: 0;
-            padding: 14px;
-            padding-bottom: 40px;
-            overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
         }
     </style>
 </head>
@@ -541,45 +499,37 @@
             <span class="tb-value" id="team-value">ĐỘI KV4</span>
         </div>
 
-        <!-- CONTACTS LIST -->
+        <!-- CONTACTS LIST FOR SEARCHED WARD/COMMUNE -->
         <div class="contacts-wrapper" id="contacts-list">
             <div class="empty-prompt" id="empty-prompt">
                 <div class="ep-icon">📍</div>
-                <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
+                <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
             </div>
         </div>
+
+        <!-- PERMANENT SECTION 1: LEADERSHIP -->
+        <div class="section-divider" id="section-leadership">
+            <div class="section-divider-title" style="color: #fca5a5;">⭐ BGĐ CA TỈNH & LÃNH ĐẠO PC07</div>
+            <div class="section-divider-line"></div>
+        </div>
+        <div class="contacts-wrapper" id="leadership-list"></div>
+
+        <!-- PERMANENT SECTION 2: MARINE -->
+        <div class="section-divider" id="section-marine">
+            <div class="section-divider-title" style="color: #93c5fd;">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</div>
+            <div class="section-divider-line"></div>
+        </div>
+        <div class="contacts-wrapper" id="marine-list"></div>
     </main>
 
-    <!-- BOTTOM NAVBAR MOBILE -->
+    <!-- BOTTOM NAVBAR MOBILE (SMOOTH SCROLL JUMP TO SECTIONS) -->
     <div class="bottom-nav">
-        <button type="button" class="nav-button nav-btn-red" id="btn-nav-leadership">
+        <a href="#section-leadership" class="nav-button nav-btn-red">
             📞 BGĐ & Lãnh Đạo PC07
-        </button>
-        <button type="button" class="nav-button nav-btn-blue" id="btn-nav-marine">
+        </a>
+        <a href="#section-marine" class="nav-button nav-btn-blue">
             🚢 Liên Lạc Sông Biển
-        </button>
-    </div>
-
-    <!-- MODAL LEADERSHIP -->
-    <div class="modal-overlay hidden" id="modal-leadership">
-        <div class="modal-sheet">
-            <div class="sheet-header">
-                <span class="sheet-title">📞 BGĐ CA TỈNH & LÃNH ĐẠO PC07</span>
-                <button type="button" class="btn-sheet-close" id="close-leadership">✕</button>
-            </div>
-            <div class="sheet-body" id="body-leadership"></div>
-        </div>
-    </div>
-
-    <!-- MODAL MARINE -->
-    <div class="modal-overlay hidden" id="modal-marine">
-        <div class="modal-sheet">
-            <div class="sheet-header" style="border-color: rgba(59, 130, 246, 0.4);">
-                <span class="sheet-title" style="color: #60a5fa;">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</span>
-                <button type="button" class="btn-sheet-close" id="close-marine">✕</button>
-            </div>
-            <div class="sheet-body" id="body-marine"></div>
-        </div>
+        </a>
     </div>
 
     <!-- SCRIPTS -->
@@ -11391,17 +11341,8 @@ const MARINE_CONTACTS = [
         const teamValue = document.getElementById("team-value");
         const contactsList = document.getElementById("contacts-list");
         const chipBtns = document.querySelectorAll(".chip-btn");
-
-        // Modals
-        const btnLeadership = document.getElementById("btn-nav-leadership");
-        const modalLeadership = document.getElementById("modal-leadership");
-        const closeLeadership = document.getElementById("close-leadership");
-        const bodyLeadership = document.getElementById("body-leadership");
-
-        const btnMarine = document.getElementById("btn-nav-marine");
-        const modalMarine = document.getElementById("modal-marine");
-        const closeMarine = document.getElementById("close-marine");
-        const bodyMarine = document.getElementById("body-marine");
+        const leadershipList = document.getElementById("leadership-list");
+        const marineList = document.getElementById("marine-list");
 
         let currentMatches = [];
 
@@ -11522,7 +11463,7 @@ const MARINE_CONTACTS = [
                 contactsList.innerHTML = `
                     <div class="empty-prompt">
                         <div class="ep-icon">📍</div>
-                        <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
+                        <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
                     </div>
                 `;
                 currentMatches = [];
@@ -11623,7 +11564,7 @@ const MARINE_CONTACTS = [
             contactsList.innerHTML = `
                 <div class="empty-prompt">
                     <div class="ep-icon">📍</div>
-                    <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
+                    <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
                 </div>
             `;
             currentMatches = [];
@@ -11647,68 +11588,54 @@ const MARINE_CONTACTS = [
         document.addEventListener("pointerdown", hideSuggestions);
         document.addEventListener("click", hideSuggestions);
 
-        // Modals Rendering with robust parseContactItem
-        btnLeadership.addEventListener("click", () => {
-            bodyLeadership.innerHTML = "";
-            LEADERSHIP_DATA.forEach(group => {
-                const card = document.createElement("div");
-                card.className = "card";
+        // Render Permanent Leadership Section directly on page
+        leadershipList.innerHTML = "";
+        LEADERSHIP_DATA.forEach(group => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-                const header = document.createElement("div");
-                header.className = "card-header";
-                header.innerHTML = `⭐ ${group.title}`;
-                card.appendChild(header);
+            const header = document.createElement("div");
+            header.className = "card-header";
+            header.innerHTML = `⭐ ${group.title}`;
+            card.appendChild(header);
 
-                const body = document.createElement("div");
-                body.className = "card-body";
-                group.contacts.forEach(c => {
-                    const row = document.createElement("div");
-                    row.className = "contact-row";
-                    row.innerHTML = parseContactItem(c.text);
-                    body.appendChild(row);
-                });
-
-                card.appendChild(body);
-                bodyLeadership.appendChild(card);
+            const body = document.createElement("div");
+            body.className = "card-body";
+            group.contacts.forEach(c => {
+                const row = document.createElement("div");
+                row.className = "contact-row";
+                row.innerHTML = parseContactItem(c.text);
+                body.appendChild(row);
             });
-            modalLeadership.classList.remove("hidden");
+
+            card.appendChild(body);
+            leadershipList.appendChild(card);
         });
 
-        closeLeadership.addEventListener("click", () => modalLeadership.classList.add("hidden"));
-        modalLeadership.addEventListener("click", (e) => {
-            if (e.target === modalLeadership) modalLeadership.classList.add("hidden");
-        });
+        // Render Permanent Marine Section directly on page
+        marineList.innerHTML = "";
+        MARINE_CONTACTS.forEach(group => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.style.borderColor = "rgba(59, 130, 246, 0.4)";
 
-        btnMarine.addEventListener("click", () => {
-            bodyMarine.innerHTML = "";
-            MARINE_CONTACTS.forEach(group => {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.style.borderColor = "rgba(59, 130, 246, 0.4)";
+            const header = document.createElement("div");
+            header.className = "card-header";
+            header.style.color = "#60a5fa";
+            header.innerHTML = `🚢 ${group.title}`;
+            card.appendChild(header);
 
-                const header = document.className = "card-header";
-                header.style.color = "#60a5fa";
-                header.innerHTML = `🚢 ${group.title}`;
-                card.appendChild(header);
-
-                const body = document.createElement("div");
-                body.className = "card-body";
-                group.contacts.forEach(c => {
-                    const row = document.createElement("div");
-                    row.className = "contact-row";
-                    row.innerHTML = parseContactItem(c.text);
-                    body.appendChild(row);
-                });
-
-                card.appendChild(body);
-                bodyMarine.appendChild(card);
+            const body = document.createElement("div");
+            body.className = "card-body";
+            group.contacts.forEach(c => {
+                const row = document.createElement("div");
+                row.className = "contact-row";
+                row.innerHTML = parseContactItem(c.text);
+                body.appendChild(row);
             });
-            modalMarine.classList.remove("hidden");
-        });
 
-        closeMarine.addEventListener("click", () => modalMarine.classList.add("hidden"));
-        modalMarine.addEventListener("click", (e) => {
-            if (e.target === modalMarine) modalMarine.classList.add("hidden");
+            card.appendChild(body);
+            marineList.appendChild(card);
         });
     });
     </script>
