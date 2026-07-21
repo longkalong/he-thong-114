@@ -38,7 +38,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-bottom: 80px; /* Space for bottom navbar */
+            padding-bottom: 84px; /* Space for bottom navbar */
             -webkit-font-smoothing: antialiased;
         }
 
@@ -302,9 +302,9 @@
         .contact-row {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+            gap: 6px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
         }
 
         .contact-row:last-child {
@@ -313,41 +313,40 @@
         }
 
         .c-name {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: #f1f5f9;
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.35;
         }
 
         .c-phones {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             margin-top: 4px;
         }
 
+        /* LARGE TAP-TO-CALL BUTTON */
         .call-btn {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            background: rgba(16, 185, 129, 0.15);
+            justify-content: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
             color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 7px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            border: 1.5px solid #10b981;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
             text-decoration: none;
-            transition: background 0.15s ease;
+            transition: transform 0.1s ease, background 0.15s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
         }
 
         .call-btn:active {
-            background: rgba(16, 185, 129, 0.35);
-        }
-
-        .call-btn::before {
-            content: "📞";
-            font-size: 0.8rem;
+            background: rgba(16, 185, 129, 0.4);
+            transform: scale(0.96);
         }
 
         /* EMPTY STATE */
@@ -394,28 +393,32 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: #f1f5f9;
-            padding: 10px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            padding: 11px 8px;
+            border-radius: 12px;
+            font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .nav-button:active {
             background: #253350;
+            transform: scale(0.98);
         }
 
         .nav-btn-red {
-            border-color: rgba(239, 68, 68, 0.4);
+            border-color: rgba(239, 68, 68, 0.5);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(21, 29, 48, 0.9) 100%);
             color: #fca5a5;
         }
 
         .nav-btn-blue {
-            border-color: rgba(59, 130, 246, 0.4);
+            border-color: rgba(59, 130, 246, 0.5);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(21, 29, 48, 0.9) 100%);
             color: #93c5fd;
         }
 
-        /* MODAL FULLSCREEN MOBILE */
+        /* MODAL FULLSCREEN MOBILE SHEET */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -11405,13 +11408,41 @@ const MARINE_CONTACTS = [
                       .join(" ");
         }
 
-        function formatPhoneLinks(text) {
+        // Format and parse text into Title + Tap-to-Call Buttons
+        function parseContactItem(text) {
             if (!text) return "";
-            const phoneRegex = /([0-9](3, 5)\.[0-9](3, 4)\.[0-9](3, 4)|0[0-9](9, 10))/g;
-            return text.replace(phoneRegex, (phone) => {
-                const cleanPhone = phone.replace(/\./g, "");
-                return `<a href="tel:${cleanPhone}" class="call-btn">${phone}</a>`;
-            });
+            const phoneRegex = /([0-9](3, 5)[\.\s]?[0-9](3, 4)[\.\s]?[0-9](3, 4)|0[0-9](8, 11))/g;
+            const parts = text.split(/; SĐT:|SĐT:|; số điện thoại:|số điện thoại:/i);
+
+            if (parts.length > 1) {
+                const title = parts[0].replace(/^[-*\s]+/, "").trim();
+                const phonesText = parts[1].trim();
+                const phones = phonesText.split(/[,;/]+/);
+
+                const phoneButtons = phones.map(p => {
+                    const rawP = p.trim();
+                    const cleanP = rawP.replace(/[\.\s]/g, "");
+                    return `<a href="tel:${cleanP}" class="call-btn">📞 ${rawP}</a>`;
+                }).join(" ");
+
+                return `
+                    <div class="c-name">${title}</div>
+                    <div class="c-phones">${phoneButtons}</div>
+                `;
+            } else {
+                // Replace any phone match inside string with call-btn
+                const cleanText = text.replace(/^[-*\s]+/, "").trim();
+                const hasPhone = phoneRegex.test(cleanText);
+                if (hasPhone) {
+                    const formatted = cleanText.replace(phoneRegex, (phone) => {
+                        const cleanPhone = phone.replace(/[\.\s]/g, "");
+                        return `<a href="tel:${cleanPhone}" class="call-btn">📞 ${phone}</a>`;
+                    });
+                    return `<div class="c-name">${formatted}</div>`;
+                } else {
+                    return `<div class="c-name">${cleanText}</div>`;
+                }
+            }
         }
 
         function displayContacts(section) {
@@ -11453,25 +11484,7 @@ const MARINE_CONTACTS = [
                     sub.contacts.forEach(c => {
                         const row = document.createElement("div");
                         row.className = "contact-row";
-
-                        const parts = c.text.split(/; SĐT:|SĐT:|; số điện thoại:|số điện thoại:/i);
-                        if (parts.length > 1) {
-                            const label = parts[0].trim();
-                            const phones = parts[1].trim().split(/[,;/]+/);
-                            const phoneButtons = phones.map(p => {
-                                const cleanP = p.trim().replace(/\./g, "");
-                                return `<a href="tel:${cleanP}" class="call-btn">${p.trim()}</a>`;
-                            }).join(" ");
-
-                            row.innerHTML = `
-                                <div class="c-name">${label}</div>
-                                <div class="c-phones">${phoneButtons}</div>
-                            `;
-                        } else {
-                            row.innerHTML = `
-                                <div class="c-name">${formatPhoneLinks(c.text)}</div>
-                            `;
-                        }
+                        row.innerHTML = parseContactItem(c.text);
                         cardBody.appendChild(row);
                     });
                 }
@@ -11623,7 +11636,7 @@ const MARINE_CONTACTS = [
         document.addEventListener("pointerdown", hideSuggestions);
         document.addEventListener("click", hideSuggestions);
 
-        // Modals
+        // Modals Rendering with parseContactItem
         btnLeadership.addEventListener("click", () => {
             bodyLeadership.innerHTML = "";
             LEADERSHIP_DATA.forEach(group => {
@@ -11640,7 +11653,7 @@ const MARINE_CONTACTS = [
                 group.contacts.forEach(c => {
                     const row = document.createElement("div");
                     row.className = "contact-row";
-                    row.innerHTML = `<div class="c-name">${formatPhoneLinks(c.text)}</div>`;
+                    row.innerHTML = parseContactItem(c.text);
                     body.appendChild(row);
                 });
 
@@ -11673,7 +11686,7 @@ const MARINE_CONTACTS = [
                 group.contacts.forEach(c => {
                     const row = document.createElement("div");
                     row.className = "contact-row";
-                    row.innerHTML = `<div class="c-name">${formatPhoneLinks(c.text)}</div>`;
+                    row.innerHTML = parseContactItem(c.text);
                     body.appendChild(row);
                 });
 
