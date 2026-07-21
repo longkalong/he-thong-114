@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784624200 -->
+<!-- Build Timestamp: 1784624419 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -358,13 +358,13 @@
         }
 
         .card-body {
-            padding: 10px 14px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .contact-row {
+        .contact-item {
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -372,45 +372,46 @@
             border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
         }
 
-        .contact-row:last-child {
+        .contact-item:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
 
-        .c-name {
-            font-size: 0.9rem;
+        .contact-label {
+            font-size: 0.92rem;
             color: #f1f5f9;
             font-weight: 600;
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
-        .c-phones {
+        .contact-phone-list {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 4px;
         }
 
-        /* LARGE TAP-TO-CALL BUTTON */
-        .call-btn {
+        /* DIRECT CLICKABLE PHONE LINK BUTTON */
+        .phone-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
-            color: #34d399;
-            border: 1.5px solid #10b981;
-            padding: 8px 14px;
+            background: #10b981;
+            color: #ffffff !important;
+            padding: 9px 16px;
             border-radius: 10px;
             font-weight: 800;
             font-size: 0.95rem;
-            text-decoration: none;
+            text-decoration: none !important;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             transition: transform 0.1s ease, background 0.15s ease;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            cursor: pointer;
+            margin-top: 4px;
         }
 
-        .call-btn:active {
-            background: rgba(16, 185, 129, 0.4);
+        .phone-link:active {
+            background: #059669;
             transform: scale(0.96);
         }
 
@@ -434,7 +435,7 @@
             line-height: 1.4;
         }
 
-        /* BOTTOM NAVBAR FOR MOBILE (EXPAND SECTION TOGGLE) */
+        /* BOTTOM NAVBAR FOR MOBILE */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -11410,39 +11411,39 @@ const MARINE_CONTACTS = [
                       .join(" ");
         }
 
-        // Robust parser: Converts any phone number pattern into a green tap-to-call button
+        // Format phone regex matches into <a> links (Original working format)
+        function formatPhoneLinks(text) {
+            if (!text) return "";
+            const phoneRegex = /([0-9](3, 5)[\.\s]?[0-9](3, 4)[\.\s]?[0-9](3, 4)|0[0-9](8, 11))/g;
+            return text.replace(phoneRegex, (phone) => {
+                const cleanPhone = phone.replace(/[^0-9+]/g, "");
+                return `<a href="tel:${cleanPhone}" class="phone-link">📞 ${phone}</a>`;
+            });
+        }
+
+        // Render Contact Item: Name above, Phone link below (Original working logic)
         function parseContactItem(text) {
             if (!text) return "";
-            const phoneRegex = /(?:tel:)?(?:\+84|0)[0-9\.\s](8, 14)[0-9]/g;
-            let cleanText = text.replace(/^[-*\s]+/, "").trim();
+            const cleanText = text.replace(/^[-*\s]+/, "").trim();
+            const parts = cleanText.split(/; SĐT:|SĐT:|; số điện thoại:|số điện thoại:/i);
 
-            const matches = cleanText.match(phoneRegex);
-
-            if (matches && matches.length > 0) {
-                let titleText = cleanText;
-                matches.forEach(m => {
-                    titleText = titleText.replace(m, "");
-                });
-                
-                titleText = titleText.replace(/;\s*SĐT:\s*$/i, "")
-                                     .replace(/SĐT:\s*$/i, "")
-                                     .replace(/;\s*số điện thoại:\s*$/i, "")
-                                     .replace(/;\s*$/i, "")
-                                     .replace(/:\s*$/i, "")
-                                     .trim();
-
-                const phoneButtons = matches.map(phoneStr => {
-                    const rawPhone = phoneStr.replace(/^tel:/i, "").trim();
-                    const cleanDigits = rawPhone.replace(/[^0-9+]/g, "");
-                    return `<a href="tel:${cleanDigits}" class="call-btn">📞 ${rawPhone}</a>`;
+            if (parts.length > 1) {
+                const label = parts[0].trim();
+                const phones = parts[1].trim().split(/[,;/]+/);
+                const phoneLinks = phones.map(p => {
+                    const rawP = p.trim();
+                    const cleanP = rawP.replace(/[^0-9+]/g, "");
+                    return `<a href="tel:${cleanP}" class="phone-link">📞 ${rawP}</a>`;
                 }).join(" ");
 
                 return `
-                    <div class="c-name">${titleText || cleanText}</div>
-                    <div class="c-phones">${phoneButtons}</div>
+                    <div class="contact-label">${label}</div>
+                    <div class="contact-phone-list">${phoneLinks}</div>
                 `;
             } else {
-                return `<div class="c-name">${cleanText}</div>`;
+                return `
+                    <div class="contact-label">${formatPhoneLinks(cleanText)}</div>
+                `;
             }
         }
 
@@ -11483,10 +11484,10 @@ const MARINE_CONTACTS = [
                     cardBody.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;">Không có thông tin liên lạc</span>`;
                 } else {
                     sub.contacts.forEach(c => {
-                        const row = document.createElement("div");
-                        row.className = "contact-row";
-                        row.innerHTML = parseContactItem(c.text);
-                        cardBody.appendChild(row);
+                        const item = document.createElement("div");
+                        item.className = "contact-item";
+                        item.innerHTML = parseContactItem(c.text);
+                        cardBody.appendChild(item);
                     });
                 }
 
@@ -11503,7 +11504,7 @@ const MARINE_CONTACTS = [
             displayContacts(match.section);
         }
 
-        // LIVE SEARCH & DISPLAY LOGIC (Fixes typing not showing results)
+        // LIVE SEARCH & DISPLAY LOGIC
         searchInput.addEventListener("input", (e) => {
             const query = e.target.value.trim();
             const queryClean = removeDiacritics(query.toLowerCase());
@@ -11624,10 +11625,10 @@ const MARINE_CONTACTS = [
 
                         sectionMatches.forEach(sm => {
                             sm.contacts.forEach(c => {
-                                const row = document.createElement("div");
-                                row.className = "contact-row";
-                                row.innerHTML = parseContactItem(c.text);
-                                body.appendChild(row);
+                                const item = document.createElement("div");
+                                item.className = "contact-item";
+                                item.innerHTML = parseContactItem(c.text);
+                                body.appendChild(item);
                             });
                         });
 
@@ -11700,10 +11701,10 @@ const MARINE_CONTACTS = [
             const body = document.createElement("div");
             body.className = "card-body";
             group.contacts.forEach(c => {
-                const row = document.createElement("div");
-                row.className = "contact-row";
-                row.innerHTML = parseContactItem(c.text);
-                body.appendChild(row);
+                const item = document.createElement("div");
+                item.className = "contact-item";
+                item.innerHTML = parseContactItem(c.text);
+                body.appendChild(item);
             });
 
             card.appendChild(body);
@@ -11726,10 +11727,10 @@ const MARINE_CONTACTS = [
             const body = document.createElement("div");
             body.className = "card-body";
             group.contacts.forEach(c => {
-                const row = document.createElement("div");
-                row.className = "contact-row";
-                row.innerHTML = parseContactItem(c.text);
-                body.appendChild(row);
+                const item = document.createElement("div");
+                item.className = "contact-item";
+                item.innerHTML = parseContactItem(c.text);
+                body.appendChild(item);
             });
 
             card.appendChild(body);
