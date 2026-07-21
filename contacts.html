@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784622964 -->
+<!-- Build Timestamp: 1784623253 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -422,15 +422,16 @@
             color: #93c5fd;
         }
 
-        /* MODAL FULLSCREEN MOBILE SHEET */
+        /* MODAL FULLSCREEN MOBILE SHEET FIX FOR IOS & ZALO WEBVIEW */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 2000;
             display: flex;
             align-items: flex-end;
+            justify-content: center;
         }
 
         .modal-overlay.hidden {
@@ -442,6 +443,8 @@
             border-top: 1px solid var(--border-color);
             border-radius: 20px 20px 0 0;
             width: 100%;
+            max-width: 600px;
+            height: 85vh;
             max-height: 85vh;
             display: flex;
             flex-direction: column;
@@ -455,6 +458,7 @@
         }
 
         .sheet-header {
+            flex-shrink: 0;
             padding: 14px 16px;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
@@ -481,11 +485,15 @@
         }
 
         .sheet-body {
+            flex: 1;
+            min-height: 0;
             padding: 14px;
-            overflow-y: auto;
+            padding-bottom: 40px;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
     </style>
 </head>
@@ -11678,8 +11686,7 @@ const MARINE_CONTACTS = [
                 card.className = "card";
                 card.style.borderColor = "rgba(59, 130, 246, 0.4)";
 
-                const header = document.createElement("div");
-                header.className = "card-header";
+                const header = document.className = "card-header";
                 header.style.color = "#60a5fa";
                 header.innerHTML = `🚢 ${group.title}`;
                 card.appendChild(header);
