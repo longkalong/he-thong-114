@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tra Cứu Danh Bạ 114 Quảng Ninh</title>
+    <title>Danh Bạ 114 Quảng Ninh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card-hover: #334155;
+            --bg-body: #0b0f19;
+            --bg-card: #151d30;
+            --bg-card-hover: #1e2942;
             --bg-input: #1e293b;
-            --border-color: #334155;
-            --border-highlight: #38bdf8;
+            --border-color: #26334d;
+            --border-active: #38bdf8;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
             --accent-amber: #f59e0b;
-            --accent-emerald: #10b981;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            --accent-blue: #3b82f6;
+            --radius: 12px;
         }
 
         * {
@@ -31,132 +29,91 @@
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 16px;
-            line-height: 1.5;
+            padding-bottom: 80px; /* Space for bottom navbar */
+            -webkit-font-smoothing: antialiased;
         }
 
-        .app-container {
-            width: 100%;
-            max-width: 680px;
+        /* STICKY HEADER */
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-icon {
+            font-size: 1.4rem;
+        }
+
+        .brand-text h1 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* MAIN CONTAINER */
+        .main-content {
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        /* HEADER */
-        .app-header {
-            text-align: center;
-            padding: 16px 12px 4px 12px;
-        }
-
-        .header-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--accent-red);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .app-header h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 6px;
-            line-height: 1.25;
-        }
-
-        .app-header p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* MODAL BUTTONS TOP */
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-            justify-content: center;
-        }
-
-        .action-btn {
-            flex: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: var(--bg-card);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 10px 14px;
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        .action-btn-red {
-            border-color: rgba(239, 68, 68, 0.4);
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(30, 41, 59, 0.8) 100%);
-        }
-
-        .action-btn-blue {
-            border-color: rgba(59, 130, 246, 0.4);
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 41, 59, 0.8) 100%);
-        }
-
-        /* SEARCH BOX */
-        .search-card {
+        /* SEARCH CONTAINER */
+        .search-wrapper {
             position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
             background: var(--bg-card);
             border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 6px;
-            box-shadow: var(--shadow);
+            border-radius: 14px;
+            padding: 2px 12px;
             transition: border-color 0.2s ease;
         }
 
-        .search-card:focus-within {
-            border-color: var(--border-highlight);
-        }
-
-        .search-input-wrapper {
-            display: flex;
-            align-items: center;
-            position: relative;
+        .search-box:focus-within {
+            border-color: var(--border-active);
         }
 
         .search-icon {
-            position: absolute;
-            left: 14px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            pointer-events: none;
+            margin-right: 8px;
         }
 
         .search-input {
@@ -164,411 +121,449 @@
             background: transparent;
             border: none;
             outline: none;
-            padding: 14px 44px 14px 44px;
-            font-size: 1.05rem;
+            padding: 12px 0;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-main);
-            font-family: inherit;
         }
 
         .search-input::placeholder {
-            color: var(--text-muted);
-            font-weight: 400;
+            color: #64748b;
+            font-size: 0.9rem;
         }
 
         .clear-btn {
-            position: absolute;
-            right: 12px;
-            background: #334155;
+            background: #2a374e;
             color: #94a3b8;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             visibility: hidden;
+            margin-left: 6px;
         }
 
         .clear-btn.visible {
             visibility: visible;
         }
 
-        /* AUTOCOMPLETE DROPDOWN */
+        /* DROPDOWN SUGGESTIONS */
         .autocomplete-dropdown {
             position: absolute;
-            top: calc(100% + 8px);
+            top: calc(100% + 6px);
             left: 0;
             right: 0;
-            background: var(--bg-card);
+            background: #192238;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
-            max-height: 320px;
+            border-radius: 14px;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+            max-height: 280px;
             overflow-y: auto;
-            z-index: 1000;
+            z-index: 500;
         }
 
         .autocomplete-dropdown.hidden {
             display: none;
         }
 
-        .autocomplete-item {
-            padding: 12px 16px;
+        .suggestion-item {
+            padding: 12px 14px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
             display: flex;
             flex-direction: column;
             gap: 2px;
+            cursor: pointer;
         }
 
-        .autocomplete-item:last-child {
+        .suggestion-item:last-child {
             border-bottom: none;
         }
 
-        .autocomplete-item:active,
-        .autocomplete-item:hover {
-            background: var(--bg-card-hover);
+        .suggestion-item:active {
+            background: #253350;
         }
 
-        .item-title {
+        .item-main {
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
-            font-size: 0.95rem;
         }
 
-        .item-title .hl-match {
-            color: var(--border-highlight);
+        .item-main .hl {
+            color: var(--border-active);
             font-weight: 700;
             background: rgba(56, 189, 248, 0.15);
             padding: 0 2px;
             border-radius: 2px;
         }
 
-        .item-sub {
-            font-size: 0.8rem;
+        .item-team {
+            font-size: 0.78rem;
             color: var(--accent-amber);
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* QUICK FILTER CHIPS */
-        .quick-chips {
+        /* HORIZONTAL SCROLL CHIPS */
+        .chips-scroll {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
-            padding-bottom: 4px;
             scrollbar-width: none;
+            padding-bottom: 2px;
         }
 
-        .quick-chips::-webkit-scrollbar {
+        .chips-scroll::-webkit-scrollbar {
             display: none;
         }
 
-        .chip {
+        .chip-btn {
             white-space: nowrap;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 6px 14px;
+            color: #cbd5e1;
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        .chip:hover, .chip:active {
-            background: var(--bg-card-hover);
-            color: var(--text-main);
-            border-color: var(--border-highlight);
+        .chip-btn:active {
+            background: #253350;
+            border-color: var(--border-active);
         }
 
-        /* TEAM BANNER */
-        .team-banner {
+        /* TEAM BADGE BANNER */
+        .team-badge-banner {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(21, 29, 48, 0.95) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: var(--radius);
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(30, 41, 59, 0.9) 100%);
-            border: 1px solid var(--accent-red);
-            padding: 14px 18px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow);
         }
 
-        .team-banner.hidden {
+        .team-badge-banner.hidden {
             display: none;
         }
 
-        .banner-label {
-            font-size: 0.85rem;
-            font-weight: 600;
+        .tb-label {
+            font-size: 0.78rem;
             color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .banner-value {
-            font-size: 1.2rem;
+        .tb-value {
+            font-size: 1.05rem;
             font-weight: 800;
             color: var(--accent-red);
-            letter-spacing: 0.5px;
         }
 
-        /* CONTACTS CARDS LIST */
-        .contacts-list {
+        /* CONTACT CARDS */
+        .contacts-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 10px;
         }
 
-        .contact-card {
+        .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: var(--shadow);
         }
 
-        .contact-card-header {
-            background: rgba(15, 23, 42, 0.6);
+        .card-header {
+            background: rgba(11, 15, 25, 0.6);
             border-bottom: 1px solid var(--border-color);
-            padding: 12px 18px;
+            padding: 10px 14px;
+            font-size: 0.88rem;
             font-weight: 700;
-            font-size: 0.95rem;
-            color: #38bdf8;
+            color: var(--border-active);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .contact-card-body {
-            padding: 12px 18px;
+        .card-body {
+            padding: 10px 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .contact-item {
+        .contact-row {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
         }
 
-        .contact-item:last-child {
+        .contact-row:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
 
-        .contact-label {
-            font-size: 0.9rem;
-            color: #e2e8f0;
+        .c-name {
+            font-size: 0.88rem;
+            color: #f1f5f9;
             font-weight: 500;
+            line-height: 1.35;
         }
 
-        .phone-link {
+        .c-phones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .call-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             background: rgba(16, 185, 129, 0.15);
             color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-decoration: none;
-            margin-top: 4px;
-            width: fit-content;
-            transition: all 0.2s ease;
+            transition: background 0.15s ease;
         }
 
-        .phone-link:active {
-            background: rgba(16, 185, 129, 0.3);
-            transform: scale(0.97);
+        .call-btn:active {
+            background: rgba(16, 185, 129, 0.35);
         }
 
-        .phone-link::before {
+        .call-btn::before {
             content: "📞";
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         /* EMPTY STATE */
-        .empty-state {
+        .empty-prompt {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 16px;
             background: var(--bg-card);
             border: 1px dashed var(--border-color);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius);
             color: var(--text-muted);
         }
 
-        .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
-            opacity: 0.8;
+        .ep-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
         }
 
-        .empty-state p {
-            font-size: 0.95rem;
+        .ep-text {
+            font-size: 0.88rem;
+            line-height: 1.4;
         }
 
-        /* MODAL */
-        .modal {
+        /* BOTTOM NAVBAR FOR MOBILE */
+        .bottom-nav {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            z-index: 2000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            padding: 8px 12px;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #f1f5f9;
+            padding: 10px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
         }
 
-        .modal.hidden {
+        .nav-button:active {
+            background: #253350;
+        }
+
+        .nav-btn-red {
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        .nav-btn-blue {
+            border-color: rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+        }
+
+        /* MODAL FULLSCREEN MOBILE */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .modal-overlay.hidden {
             display: none;
         }
 
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content {
-            position: relative;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
+        .modal-sheet {
+            background: var(--bg-body);
+            border-top: 1px solid var(--border-color);
+            border-radius: 20px 20px 0 0;
             width: 100%;
-            max-width: 600px;
             max-height: 85vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            z-index: 1;
+            animation: slideUp 0.25s ease-out;
         }
 
-        .modal-header {
-            padding: 16px 20px;
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .sheet-header {
+            padding: 14px 16px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: var(--bg-card);
         }
 
-        .modal-header h3 {
-            font-size: 1.05rem;
+        .sheet-title {
+            font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: #ffffff;
         }
 
-        .btn-close {
-            background: none;
+        .btn-sheet-close {
+            background: #2a374e;
             border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
+            color: #94a3b8;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 1rem;
             cursor: pointer;
-            line-height: 1;
-            padding: 4px;
         }
 
-        .modal-body {
-            padding: 20px;
+        .sheet-body {
+            padding: 14px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- HEADER -->
-        <header class="app-header">
-            <div class="header-badge">🔥 CẢNH SÁT PCCC 114 QUẢNG NINH</div>
-            <h1>TRA CỨU DANH BẠ ĐỊA BÀN</h1>
-            <p>Gõ tên Phường/Xã để lấy nhanh số điện thoại Đội PCCC & UBND/Công An</p>
-            
-            <div class="header-actions">
-                <button type="button" class="action-btn action-btn-red" id="btn-leadership">
-                    📞 Ban Giám Đốc CA Tỉnh & PC07
-                </button>
-                <button type="button" class="action-btn action-btn-blue" id="btn-marine">
-                    🚢 Liên Lạc Sông Biển
-                </button>
-            </div>
-        </header>
 
-        <!-- SEARCH INPUT -->
-        <div class="search-card">
-            <div class="search-input-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="address-input" class="search-input" placeholder="Nhập tên Phường / Xã (ví dụ: Quảng Chính, Hà Lầm, Bãi Cháy...)" autocomplete="off">
-                <button type="button" class="clear-btn" id="clear-search">✕</button>
+    <!-- MOBILE STICKY HEADER -->
+    <header class="mobile-header">
+        <div class="brand-title">
+            <span class="brand-icon">🔥</span>
+            <div class="brand-text">
+                <h1>DANH BẠ 114 QUẢNG NINH</h1>
+                <p>Tra cứu nhanh Đội PCCC & UBND/Công An</p>
             </div>
-            <!-- AUTOCOMPLETE DROPDOWN -->
-            <div class="autocomplete-dropdown hidden" id="suggestions-list"></div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="main-content">
+        <!-- SEARCH -->
+        <div class="search-wrapper">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" class="search-input" placeholder="Gõ Phường / Xã (Quảng Chính, Hà Lầm...)" autocomplete="off">
+                <button type="button" class="clear-btn" id="btn-clear">✕</button>
+            </div>
+            <!-- DROPDOWN -->
+            <div class="autocomplete-dropdown hidden" id="dropdown-list"></div>
         </div>
 
         <!-- QUICK CHIPS -->
-        <div class="quick-chips">
-            <button class="chip" data-query="Hạ Long">Hạ Long</button>
-            <button class="chip" data-query="Cẩm Phả">Cẩm Phả</button>
-            <button class="chip" data-query="Uông Bí">Uông Bí</button>
-            <button class="chip" data-query="Móng Cái">Móng Cái</button>
-            <button class="chip" data-query="Quảng Yên">Quảng Yên</button>
-            <button class="chip" data-query="Đông Triều">Đông Triều</button>
-            <button class="chip" data-query="Tiên Yên">Tiên Yên</button>
-            <button class="chip" data-query="Vân Đồn">Vân Đồn</button>
+        <div class="chips-scroll">
+            <button class="chip-btn" data-query="Hạ Long">Hạ Long</button>
+            <button class="chip-btn" data-query="Cẩm Phả">Cẩm Phả</button>
+            <button class="chip-btn" data-query="Uông Bí">Uông Bí</button>
+            <button class="chip-btn" data-query="Móng Cái">Móng Cái</button>
+            <button class="chip-btn" data-query="Quảng Yên">Quảng Yên</button>
+            <button class="chip-btn" data-query="Đông Triều">Đông Triều</button>
+            <button class="chip-btn" data-query="Tiên Yên">Tiên Yên</button>
+            <button class="chip-btn" data-query="Vân Đồn">Vân Đồn</button>
         </div>
 
         <!-- TEAM BANNER -->
-        <div class="team-banner hidden" id="team-banner">
-            <span class="banner-label">ĐƠN VỊ PHỤ TRÁCH ĐỊA BÀN:</span>
-            <span class="banner-value" id="team-value">ĐỘI KV4</span>
+        <div class="team-badge-banner hidden" id="team-banner">
+            <span class="tb-label">Đội PCCC quản lý địa bàn:</span>
+            <span class="tb-value" id="team-value">ĐỘI KV4</span>
         </div>
 
-        <!-- CONTACTS DISPLAY AREA -->
-        <div class="contacts-list" id="contacts-container">
-            <div class="empty-state" id="empty-state">
-                <div class="empty-icon">📍</div>
-                <p>Hãy nhập tên Phường / Xã vào ô tìm kiếm ở trên để lấy danh bạ cần gọi.</p>
+        <!-- CONTACTS LIST -->
+        <div class="contacts-wrapper" id="contacts-list">
+            <div class="empty-prompt" id="empty-prompt">
+                <div class="ep-icon">📍</div>
+                <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
             </div>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAVBAR MOBILE -->
+    <div class="bottom-nav">
+        <button type="button" class="nav-button nav-btn-red" id="btn-nav-leadership">
+            📞 BGĐ & Lãnh Đạo PC07
+        </button>
+        <button type="button" class="nav-button nav-btn-blue" id="btn-nav-marine">
+            🚢 Liên Lạc Sông Biển
+        </button>
+    </div>
+
+    <!-- MODAL LEADERSHIP -->
+    <div class="modal-overlay hidden" id="modal-leadership">
+        <div class="modal-sheet">
+            <div class="sheet-header">
+                <span class="sheet-title">📞 BGĐ CA TỈNH & LÃNH ĐẠO PC07</span>
+                <button type="button" class="btn-sheet-close" id="close-leadership">✕</button>
+            </div>
+            <div class="sheet-body" id="body-leadership"></div>
         </div>
     </div>
 
-    <!-- MODAL: LEADERSHIP -->
-    <div class="modal hidden" id="modal-leadership">
-        <div class="modal-overlay" id="overlay-leadership"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📞 DANH BẠ BGĐ CA TỈNH & LÃNH ĐẠO PC07</h3>
-                <button class="btn-close" id="close-leadership">×</button>
+    <!-- MODAL MARINE -->
+    <div class="modal-overlay hidden" id="modal-marine">
+        <div class="modal-sheet">
+            <div class="sheet-header" style="border-color: rgba(59, 130, 246, 0.4);">
+                <span class="sheet-title" style="color: #60a5fa;">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</span>
+                <button type="button" class="btn-sheet-close" id="close-marine">✕</button>
             </div>
-            <div class="modal-body" id="body-leadership"></div>
-        </div>
-    </div>
-
-    <!-- MODAL: MARINE -->
-    <div class="modal hidden" id="modal-marine">
-        <div class="modal-overlay" id="overlay-marine"></div>
-        <div class="modal-content">
-            <div class="modal-header" style="border-color: rgba(59, 130, 246, 0.3);">
-                <h3>🚢 LIÊN LẠC CƠ QUAN, TỔ CHỨC TRÊN BIỂN</h3>
-                <button class="btn-close" id="close-marine">×</button>
-            </div>
-            <div class="modal-body" id="body-marine"></div>
+            <div class="sheet-body" id="body-marine"></div>
         </div>
     </div>
 
@@ -11374,31 +11369,27 @@ const MARINE_CONTACTS = [
 
 
     document.addEventListener("DOMContentLoaded", () => {
-        const addressInput = document.getElementById("address-input");
-        const clearBtn = document.getElementById("clear-search");
-        const suggestionsList = document.getElementById("suggestions-list");
+        const searchInput = document.getElementById("search-input");
+        const btnClear = document.getElementById("btn-clear");
+        const dropdownList = document.getElementById("dropdown-list");
         const teamBanner = document.getElementById("team-banner");
         const teamValue = document.getElementById("team-value");
-        const contactsContainer = document.getElementById("contacts-container");
-        const emptyState = document.getElementById("empty-state");
-        const chips = document.querySelectorAll(".chip");
+        const contactsList = document.getElementById("contacts-list");
+        const chipBtns = document.querySelectorAll(".chip-btn");
 
         // Modals
-        const btnLeadership = document.getElementById("btn-leadership");
+        const btnLeadership = document.getElementById("btn-nav-leadership");
         const modalLeadership = document.getElementById("modal-leadership");
         const closeLeadership = document.getElementById("close-leadership");
-        const overlayLeadership = document.getElementById("overlay-leadership");
         const bodyLeadership = document.getElementById("body-leadership");
 
-        const btnMarine = document.getElementById("btn-marine");
+        const btnMarine = document.getElementById("btn-nav-marine");
         const modalMarine = document.getElementById("modal-marine");
         const closeMarine = document.getElementById("close-marine");
-        const overlayMarine = document.getElementById("overlay-marine");
         const bodyMarine = document.getElementById("body-marine");
 
         let currentMatches = [];
 
-        // Utilities
         function removeDiacritics(str) {
             if (!str) return "";
             return str.normalize("NFD")
@@ -11419,15 +11410,14 @@ const MARINE_CONTACTS = [
             const phoneRegex = /([0-9](3, 5)\.[0-9](3, 4)\.[0-9](3, 4)|0[0-9](9, 10))/g;
             return text.replace(phoneRegex, (phone) => {
                 const cleanPhone = phone.replace(/\./g, "");
-                return `<a href="tel:${cleanPhone}" class="phone-link">${phone}</a>`;
+                return `<a href="tel:${cleanPhone}" class="call-btn">${phone}</a>`;
             });
         }
 
-        // Display contacts for selected section
         function displayContacts(section) {
             if (!section) return;
 
-            // Show Team Banner
+            // Update Team Banner
             teamBanner.classList.remove("hidden");
             let t = section.team;
             if (t === "Đội 6") t = "Đội KV4";
@@ -11443,81 +11433,79 @@ const MARINE_CONTACTS = [
             teamValue.textContent = t.toUpperCase();
 
             // Render Contacts List
-            contactsContainer.innerHTML = "";
+            contactsList.innerHTML = "";
 
             section.subsections.forEach(sub => {
                 const card = document.createElement("div");
-                card.className = "contact-card";
+                card.className = "card";
 
                 const cardHeader = document.createElement("div");
-                cardHeader.className = "contact-card-header";
+                cardHeader.className = "card-header";
                 cardHeader.innerHTML = `📌 ${sub.title}`;
                 card.appendChild(cardHeader);
 
                 const cardBody = document.createElement("div");
-                cardBody.className = "contact-card-body";
+                cardBody.className = "card-body";
 
                 if (sub.contacts.length === 0 || (sub.contacts.length === 1 && sub.contacts[0].text.includes("Không có thông tin"))) {
-                    cardBody.innerHTML = `<span style="color:var(--text-muted); font-size:0.85rem;">Không có thông tin liên lạc</span>`;
+                    cardBody.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;">Không có thông tin liên lạc</span>`;
                 } else {
                     sub.contacts.forEach(c => {
-                        const item = document.createElement("div");
-                        item.className = "contact-item";
+                        const row = document.createElement("div");
+                        row.className = "contact-row";
 
                         const parts = c.text.split(/; SĐT:|SĐT:|; số điện thoại:|số điện thoại:/i);
                         if (parts.length > 1) {
                             const label = parts[0].trim();
                             const phones = parts[1].trim().split(/[,;/]+/);
-                            const phoneLinks = phones.map(p => {
+                            const phoneButtons = phones.map(p => {
                                 const cleanP = p.trim().replace(/\./g, "");
-                                return `<a href="tel:${cleanP}" class="phone-link">${p.trim()}</a>`;
+                                return `<a href="tel:${cleanP}" class="call-btn">${p.trim()}</a>`;
                             }).join(" ");
 
-                            item.innerHTML = `
-                                <span class="contact-label">${label}</span>
-                                <div>${phoneLinks}</div>
+                            row.innerHTML = `
+                                <div class="c-name">${label}</div>
+                                <div class="c-phones">${phoneButtons}</div>
                             `;
                         } else {
-                            item.innerHTML = `
-                                <span class="contact-label">${formatPhoneLinks(c.text)}</span>
+                            row.innerHTML = `
+                                <div class="c-name">${formatPhoneLinks(c.text)}</div>
                             `;
                         }
-                        cardBody.appendChild(item);
+                        cardBody.appendChild(row);
                     });
                 }
 
                 card.appendChild(cardBody);
-                contactsContainer.appendChild(card);
+                contactsList.appendChild(card);
             });
         }
 
-        // Select match handler
         function selectMatch(match) {
             if (!match) return;
-            addressInput.value = match.matchedName;
-            clearBtn.classList.add("visible");
-            suggestionsList.classList.add("hidden");
+            searchInput.value = match.matchedName;
+            btnClear.classList.add("visible");
+            dropdownList.classList.add("hidden");
             displayContacts(match.section);
         }
 
-        // Search Input Handler
-        addressInput.addEventListener("input", (e) => {
+        searchInput.addEventListener("input", (e) => {
             const query = e.target.value.trim();
             if (!query) {
-                clearBtn.classList.remove("visible");
-                suggestionsList.classList.add("hidden");
+                btnClear.classList.remove("visible");
+                dropdownList.classList.add("hidden");
                 teamBanner.classList.add("hidden");
-                contactsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📍</div>
-                        <p>Hãy nhập tên Phường / Xã vào ô tìm kiếm ở trên để lấy danh bạ cần gọi.</p>
+                contactsList.innerHTML = `
+                    <div class="empty-prompt">
+                        <div class="ep-icon">📍</div>
+                        <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
                     </div>
                 `;
                 currentMatches = [];
                 return;
             }
 
-            clearBtn.classList.add("visible");
+            btnClear.classList.add("visible");
             const queryClean = removeDiacritics(query.toLowerCase());
             const matches = [];
 
@@ -11552,21 +11540,21 @@ const MARINE_CONTACTS = [
             currentMatches = matches;
 
             if (matches.length > 0) {
-                suggestionsList.innerHTML = "";
+                dropdownList.innerHTML = "";
                 matches.slice(0, 8).forEach(match => {
                     const itemDiv = document.createElement("div");
-                    itemDiv.className = "autocomplete-item";
+                    itemDiv.className = "suggestion-item";
 
                     let label = match.displayText;
                     const cleanLabel = removeDiacritics(label.toLowerCase());
                     const idx = cleanLabel.indexOf(queryClean);
                     if (idx !== -1) {
-                        label = label.substring(0, idx) + `<span class="hl-match">${label.substring(idx, idx + query.length)}</span>` + label.substring(idx + query.length);
+                        label = label.substring(0, idx) + `<span class="hl">${label.substring(idx, idx + query.length)}</span>` + label.substring(idx + query.length);
                     }
 
                     itemDiv.innerHTML = `
-                        <span class="item-title">${label}</span>
-                        <span class="item-sub">Đội quản lý: ${match.section.team}</span>
+                        <span class="item-main">${label}</span>
+                        <span class="item-team">Quản lý: ${match.section.team}</span>
                     `;
 
                     const handleSelection = (evt) => {
@@ -11579,9 +11567,9 @@ const MARINE_CONTACTS = [
                     itemDiv.addEventListener("touchstart", handleSelection, { passive: false });
                     itemDiv.addEventListener("click", handleSelection);
 
-                    suggestionsList.appendChild(itemDiv);
+                    dropdownList.appendChild(itemDiv);
                 });
-                suggestionsList.classList.remove("hidden");
+                dropdownList.classList.remove("hidden");
 
                 // Auto match exact
                 const exactMatch = matches.find(m => removeDiacritics(m.matchedName.toLowerCase()) === queryClean);
@@ -11589,76 +11577,71 @@ const MARINE_CONTACTS = [
                     selectMatch(exactMatch);
                 }
             } else {
-                suggestionsList.classList.add("hidden");
+                dropdownList.classList.add("hidden");
             }
         });
 
-        // Keyboard Enter
-        addressInput.addEventListener("keydown", (e) => {
+        searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 if (currentMatches.length > 0) {
                     selectMatch(currentMatches[0]);
-                    addressInput.blur();
+                    searchInput.blur();
                 }
             }
         });
 
-        // Clear button
-        clearBtn.addEventListener("click", () => {
-            addressInput.value = "";
-            clearBtn.classList.remove("visible");
-            suggestionsList.classList.add("hidden");
+        btnClear.addEventListener("click", () => {
+            searchInput.value = "";
+            btnClear.classList.remove("visible");
+            dropdownList.classList.add("hidden");
             teamBanner.classList.add("hidden");
-            contactsContainer.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">📍</div>
-                    <p>Hãy nhập tên Phường / Xã vào ô tìm kiếm ở trên để lấy danh bạ cần gọi.</p>
+            contactsList.innerHTML = `
+                <div class="empty-prompt">
+                    <div class="ep-icon">📍</div>
+                    <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc chạm vào khu vực để xem số điện thoại cần gọi.</div>
                 </div>
             `;
             currentMatches = [];
-            addressInput.focus();
+            searchInput.focus();
         });
 
-        // Quick Chips
-        chips.forEach(chip => {
-            chip.addEventListener("click", () => {
-                const q = chip.getAttribute("data-query");
-                addressInput.value = q;
-                addressInput.dispatchEvent(new Event("input"));
-                addressInput.focus();
+        chipBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const q = btn.getAttribute("data-query");
+                searchInput.value = q;
+                searchInput.dispatchEvent(new Event("input"));
+                searchInput.focus();
             });
         });
 
-        // Outside Click / Touch hide suggestions
         const hideSuggestions = (e) => {
-            if (!addressInput.contains(e.target) && !suggestionsList.contains(e.target)) {
-                suggestionsList.classList.add("hidden");
+            if (!searchInput.contains(e.target) && !dropdownList.contains(e.target)) {
+                dropdownList.classList.add("hidden");
             }
         };
         document.addEventListener("pointerdown", hideSuggestions);
         document.addEventListener("click", hideSuggestions);
 
-        // --- RENDER MODALS ---
-        // Leadership Modal
+        // Modals
         btnLeadership.addEventListener("click", () => {
             bodyLeadership.innerHTML = "";
             LEADERSHIP_DATA.forEach(group => {
                 const card = document.createElement("div");
-                card.className = "contact-card";
+                card.className = "card";
 
                 const header = document.createElement("div");
-                header.className = "contact-card-header";
+                header.className = "card-header";
                 header.innerHTML = `⭐ ${group.title}`;
                 card.appendChild(header);
 
                 const body = document.createElement("div");
-                body.className = "contact-card-body";
+                body.className = "card-body";
                 group.contacts.forEach(c => {
-                    const item = document.createElement("div");
-                    item.className = "contact-item";
-                    item.innerHTML = `<span class="contact-label">${formatPhoneLinks(c.text)}</span>`;
-                    body.appendChild(item);
+                    const row = document.createElement("div");
+                    row.className = "contact-row";
+                    row.innerHTML = `<div class="c-name">${formatPhoneLinks(c.text)}</div>`;
+                    body.appendChild(row);
                 });
 
                 card.appendChild(body);
@@ -11668,29 +11651,30 @@ const MARINE_CONTACTS = [
         });
 
         closeLeadership.addEventListener("click", () => modalLeadership.classList.add("hidden"));
-        overlayLeadership.addEventListener("click", () => modalLeadership.classList.add("hidden"));
+        modalLeadership.addEventListener("click", (e) => {
+            if (e.target === modalLeadership) modalLeadership.classList.add("hidden");
+        });
 
-        // Marine Modal
         btnMarine.addEventListener("click", () => {
             bodyMarine.innerHTML = "";
             MARINE_CONTACTS.forEach(group => {
                 const card = document.createElement("div");
-                card.className = "contact-card";
+                card.className = "card";
                 card.style.borderColor = "rgba(59, 130, 246, 0.4)";
 
                 const header = document.createElement("div");
-                header.className = "contact-card-header";
+                header.className = "card-header";
                 header.style.color = "#60a5fa";
                 header.innerHTML = `🚢 ${group.title}`;
                 card.appendChild(header);
 
                 const body = document.createElement("div");
-                body.className = "contact-card-body";
+                body.className = "card-body";
                 group.contacts.forEach(c => {
-                    const item = document.createElement("div");
-                    item.className = "contact-item";
-                    item.innerHTML = `<span class="contact-label">${formatPhoneLinks(c.text)}</span>`;
-                    body.appendChild(item);
+                    const row = document.createElement("div");
+                    row.className = "contact-row";
+                    row.innerHTML = `<div class="c-name">${formatPhoneLinks(c.text)}</div>`;
+                    body.appendChild(row);
                 });
 
                 card.appendChild(body);
@@ -11700,7 +11684,9 @@ const MARINE_CONTACTS = [
         });
 
         closeMarine.addEventListener("click", () => modalMarine.classList.add("hidden"));
-        overlayMarine.addEventListener("click", () => modalMarine.classList.add("hidden"));
+        modalMarine.addEventListener("click", (e) => {
+            if (e.target === modalMarine) modalMarine.classList.add("hidden");
+        });
     });
     </script>
 </body>
