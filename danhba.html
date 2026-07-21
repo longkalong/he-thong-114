@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Build Timestamp: 1784623439 -->
+<!-- Build Timestamp: 1784623656 -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -93,7 +93,7 @@
             padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
@@ -274,31 +274,61 @@
             color: var(--accent-red);
         }
 
-        /* SECTION TITLE DIVIDERS */
-        .section-divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 12px;
-            margin-bottom: 4px;
+        /* ACCORDION CARDS */
+        .accordion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
             scroll-margin-top: 70px;
         }
 
-        .section-divider-title {
-            font-size: 0.95rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .accordion-header {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(21, 29, 48, 0.8);
+            border: none;
             display: flex;
             align-items: center;
-            gap: 6px;
-            white-space: nowrap;
+            justify-content: space-between;
+            cursor: pointer;
+            text-align: left;
         }
 
-        .section-divider-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
+        .accordion-header:active {
+            background: #1e2942;
+        }
+
+        .accordion-header.red-theme {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .accordion-header.blue-theme {
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .acc-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+        }
+
+        .red-theme .acc-title { color: #fca5a5; }
+        .blue-theme .acc-title { color: #93c5fd; }
+
+        .acc-arrow {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .accordion-content {
+            padding: 12px 14px 16px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-content.hidden {
+            display: none;
         }
 
         /* CONTACT CARDS */
@@ -309,7 +339,7 @@
         }
 
         .card {
-            background: var(--bg-card);
+            background: #192238;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             overflow: hidden;
@@ -404,7 +434,7 @@
             line-height: 1.4;
         }
 
-        /* BOTTOM NAVBAR FOR MOBILE (SMOOTH SCROLL JUMP) */
+        /* BOTTOM NAVBAR FOR MOBILE (EXPAND SECTION TOGGLE) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -433,7 +463,6 @@
             font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
-            text-decoration: none;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -503,33 +532,41 @@
         <div class="contacts-wrapper" id="contacts-list">
             <div class="empty-prompt" id="empty-prompt">
                 <div class="ep-icon">📍</div>
-                <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
+                <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc bấm chọn bên dưới để xem danh bạ.</div>
             </div>
         </div>
 
-        <!-- PERMANENT SECTION 1: LEADERSHIP -->
-        <div class="section-divider" id="section-leadership">
-            <div class="section-divider-title" style="color: #fca5a5;">⭐ BGĐ CA TỈNH & LÃNH ĐẠO PC07</div>
-            <div class="section-divider-line"></div>
+        <!-- EXPANDABLE ACCORDION SECTION 1: LEADERSHIP -->
+        <div class="accordion-card" id="section-leadership">
+            <button type="button" class="accordion-header red-theme" id="toggle-leadership">
+                <span class="acc-title">📞 BGĐ CA TỈNH & LÃNH ĐẠO PC07</span>
+                <span class="acc-arrow" id="arrow-leadership">▼</span>
+            </button>
+            <div class="accordion-content hidden" id="container-leadership">
+                <div class="contacts-wrapper" id="leadership-list"></div>
+            </div>
         </div>
-        <div class="contacts-wrapper" id="leadership-list"></div>
 
-        <!-- PERMANENT SECTION 2: MARINE -->
-        <div class="section-divider" id="section-marine">
-            <div class="section-divider-title" style="color: #93c5fd;">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</div>
-            <div class="section-divider-line"></div>
+        <!-- EXPANDABLE ACCORDION SECTION 2: MARINE -->
+        <div class="accordion-card" id="section-marine">
+            <button type="button" class="accordion-header blue-theme" id="toggle-marine">
+                <span class="acc-title">🚢 LIÊN LẠC SÔNG BIỂN (ĐỘI 4)</span>
+                <span class="acc-arrow" id="arrow-marine">▼</span>
+            </button>
+            <div class="accordion-content hidden" id="container-marine">
+                <div class="contacts-wrapper" id="marine-list"></div>
+            </div>
         </div>
-        <div class="contacts-wrapper" id="marine-list"></div>
     </main>
 
-    <!-- BOTTOM NAVBAR MOBILE (SMOOTH SCROLL JUMP TO SECTIONS) -->
+    <!-- BOTTOM NAVBAR MOBILE (EXPAND SECTION TOGGLE) -->
     <div class="bottom-nav">
-        <a href="#section-leadership" class="nav-button nav-btn-red">
+        <button type="button" class="nav-button nav-btn-red" id="btn-nav-leadership">
             📞 BGĐ & Lãnh Đạo PC07
-        </a>
-        <a href="#section-marine" class="nav-button nav-btn-blue">
+        </button>
+        <button type="button" class="nav-button nav-btn-blue" id="btn-nav-marine">
             🚢 Liên Lạc Sông Biển
-        </a>
+        </button>
     </div>
 
     <!-- SCRIPTS -->
@@ -11341,8 +11378,22 @@ const MARINE_CONTACTS = [
         const teamValue = document.getElementById("team-value");
         const contactsList = document.getElementById("contacts-list");
         const chipBtns = document.querySelectorAll(".chip-btn");
+
+        // Accordion 1
+        const sectionLeadership = document.getElementById("section-leadership");
+        const toggleLeadership = document.getElementById("toggle-leadership");
+        const containerLeadership = document.getElementById("container-leadership");
+        const arrowLeadership = document.getElementById("arrow-leadership");
         const leadershipList = document.getElementById("leadership-list");
+        const btnNavLeadership = document.getElementById("btn-nav-leadership");
+
+        // Accordion 2
+        const sectionMarine = document.getElementById("section-marine");
+        const toggleMarine = document.getElementById("toggle-marine");
+        const containerMarine = document.getElementById("container-marine");
+        const arrowMarine = document.getElementById("arrow-marine");
         const marineList = document.getElementById("marine-list");
+        const btnNavMarine = document.getElementById("btn-nav-marine");
 
         let currentMatches = [];
 
@@ -11463,7 +11514,7 @@ const MARINE_CONTACTS = [
                 contactsList.innerHTML = `
                     <div class="empty-prompt">
                         <div class="ep-icon">📍</div>
-                        <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
+                        <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc bấm chọn bên dưới để xem danh bạ.</div>
                     </div>
                 `;
                 currentMatches = [];
@@ -11564,7 +11615,7 @@ const MARINE_CONTACTS = [
             contactsList.innerHTML = `
                 <div class="empty-prompt">
                     <div class="ep-icon">📍</div>
-                    <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc cuộn xuống để xem toàn bộ danh bạ.</div>
+                    <div class="ep-text">Nhập tên <b>Phường/Xã</b> ở trên hoặc bấm chọn bên dưới để xem danh bạ.</div>
                 </div>
             `;
             currentMatches = [];
@@ -11588,7 +11639,7 @@ const MARINE_CONTACTS = [
         document.addEventListener("pointerdown", hideSuggestions);
         document.addEventListener("click", hideSuggestions);
 
-        // Render Permanent Leadership Section directly on page
+        // Render Accordion Leadership content
         leadershipList.innerHTML = "";
         LEADERSHIP_DATA.forEach(group => {
             const card = document.createElement("div");
@@ -11612,7 +11663,7 @@ const MARINE_CONTACTS = [
             leadershipList.appendChild(card);
         });
 
-        // Render Permanent Marine Section directly on page
+        // Render Accordion Marine content
         marineList.innerHTML = "";
         MARINE_CONTACTS.forEach(group => {
             const card = document.createElement("div");
@@ -11637,6 +11688,43 @@ const MARINE_CONTACTS = [
             card.appendChild(body);
             marineList.appendChild(card);
         });
+
+        // Accordion Toggle Functions
+        function toggleLeadership(show) {
+            const isHidden = containerLeadership.classList.contains("hidden");
+            const shouldShow = show !== undefined ? show : isHidden;
+            if (shouldShow) {
+                containerLeadership.classList.remove("hidden");
+                arrowLeadership.textContent = "▲";
+                setTimeout(() => {
+                    sectionLeadership.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 50);
+            } else {
+                containerLeadership.classList.add("hidden");
+                arrowLeadership.textContent = "▼";
+            }
+        }
+
+        function toggleMarine(show) {
+            const isHidden = containerMarine.classList.contains("hidden");
+            const shouldShow = show !== undefined ? show : isHidden;
+            if (shouldShow) {
+                containerMarine.classList.remove("hidden");
+                arrowMarine.textContent = "▲";
+                setTimeout(() => {
+                    sectionMarine.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 50);
+            } else {
+                containerMarine.classList.add("hidden");
+                arrowMarine.textContent = "▼";
+            }
+        }
+
+        toggleLeadership.addEventListener("click", () => toggleLeadership());
+        btnNavLeadership.addEventListener("click", () => toggleLeadership(true));
+
+        toggleMarine.addEventListener("click", () => toggleMarine());
+        btnNavMarine.addEventListener("click", () => toggleMarine(true));
     });
     </script>
 </body>
