@@ -1399,8 +1399,8 @@ const SECTIONS_DATA = [
         "raw_title": "7.1. Cảnh sát PCCC và CNCH",
         "contacts": [
           {
-            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890",
-            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890"
+            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589",
+            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589"
           },
           {
             "raw": "- Phó đội trưởng: Nguyễn Đức Trường; SĐT: 0973.288.269",
@@ -1646,8 +1646,8 @@ const SECTIONS_DATA = [
         "raw_title": "8.1. Cảnh sát PCCC và CNCH",
         "contacts": [
           {
-            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890",
-            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890"
+            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589",
+            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589"
           },
           {
             "raw": "- Phó đội trưởng: Nguyễn Đức Trường; SĐT: 0973.288.269",

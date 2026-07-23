@@ -126,48 +126,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function getFormattedNewAddress(sectionType, sectionName, district) {
         const typeStr = sectionType.toLowerCase();
         const nameStr = toTitleCase(sectionName);
+        let districtStr = district;
+        if (districtStr.toLowerCase().startsWith("huyện ")) {
+            districtStr = "huyện " + toTitleCase(districtStr.substring(6));
+        } else if (districtStr.toLowerCase().startsWith("thị xã ")) {
+            districtStr = "thị xã " + toTitleCase(districtStr.substring(7));
+        } else if (districtStr.toLowerCase().startsWith("thành phố ")) {
+            districtStr = "thành phố " + toTitleCase(districtStr.substring(10));
+        }
         
-        // If the type is ĐẶC KHU, return đặc khu [Name], tỉnh Quảng Ninh
+        // If the type is ĐẶC KHU, return đặc khu [Name] (Vân Đồn, Cô Tô do not use Huyện)
         if (sectionType.toUpperCase() === "ĐẶC KHU") {
             return `đặc khu ${nameStr}, tỉnh Quảng Ninh`;
         }
         
-        // Return without district/city/town (bỏ huyện, thị xã, thành phố theo yêu cầu)
-        return `${typeStr} ${nameStr}, tỉnh Quảng Ninh`;
+        return `${typeStr} ${nameStr}, ${districtStr}, tỉnh Quảng Ninh`;
     }
 
     // --- 3. AUTOCOMPLETE & ADMINISTRATIVE MAPPING ---
-    let currentMatches = [];
-
-    function selectMatch(match) {
-        if (!match) return;
-        addressInput.value = match.matchedName;
-        matchedSectionId.value = match.section.id;
-        selectedUnitMeta = {
-            id: match.section.id,
-            matchedName: match.matchedName,
-            fullAddress: match.fullAddress,
-            district: match.section.district,
-            team: match.section.team,
-            sectionName: match.section.name,
-            sectionType: match.section.type
-        };
-        
-        suggestionsList.classList.add("hidden");
-        displayContacts(match.section.id);
-        updateReports();
-
-        // Scroll to contacts on mobile view if needed
-        const contactsPanel = document.querySelector(".contacts-panel");
-        if (contactsPanel && window.innerWidth <= 768) {
-            contactsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-
     addressInput.addEventListener("input", (e) => {
         const query = e.target.value.trim();
         if (!query) {
-            currentMatches = [];
             suggestionsList.classList.add("hidden");
             return;
         }
@@ -217,8 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
         
-        currentMatches = matches;
-
         if (matches.length > 0) {
             suggestionsList.innerHTML = "";
             // Limit to top 8 suggestions
@@ -239,67 +216,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="sub-info">Quản lý: ${match.section.team}</span>
                 `;
                 
-                const handleSelection = (evt) => {
-                    evt.preventDefault();
-                    evt.stopPropagation();
-                    selectMatch(match);
-                };
-
-                // Use touchstart & pointerdown for instant response on mobile devices
-                itemDiv.addEventListener("pointerdown", handleSelection);
-                itemDiv.addEventListener("touchstart", handleSelection, { passive: false });
-                itemDiv.addEventListener("click", handleSelection);
+                itemDiv.addEventListener("click", () => {
+                    addressInput.value = match.matchedName;
+                    matchedSectionId.value = match.section.id;
+                    selectedUnitMeta = {
+                        id: match.section.id,
+                        matchedName: match.matchedName,
+                        fullAddress: match.fullAddress,
+                        district: match.section.district,
+                        team: match.section.team,
+                        sectionName: match.section.name,
+                        sectionType: match.section.type
+                    };
+                    
+                    suggestionsList.classList.add("hidden");
+                    displayContacts(match.section.id);
+                    updateReports();
+                });
                 
                 suggestionsList.appendChild(itemDiv);
             });
             suggestionsList.classList.remove("hidden");
-
-            // Auto match if exact match found
-            const exactMatch = matches.find(m => {
-                const cleanInput = removeDiacritics(query.toLowerCase());
-                const cleanName = removeDiacritics(m.matchedName.toLowerCase());
-                return cleanInput === cleanName;
-            });
-            if (exactMatch) {
-                selectMatch(exactMatch);
-            }
         } else {
             suggestionsList.classList.add("hidden");
         }
     });
 
-    // Support Enter key on mobile keyboard to select top match
-    addressInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            if (currentMatches.length > 0) {
-                selectMatch(currentMatches[0]);
-                addressInput.blur();
-            }
-        }
-    });
-
-    // Auto-select on blur if typed text matches
-    addressInput.addEventListener("blur", () => {
-        setTimeout(() => {
-            if (currentMatches.length > 0 && (!matchedSectionId.value || addressInput.value.trim())) {
-                const queryClean = removeDiacritics(addressInput.value.trim().toLowerCase());
-                const best = currentMatches.find(m => removeDiacritics(m.matchedName.toLowerCase()) === queryClean) || currentMatches[0];
-                if (best && queryClean.length >= 2) {
-                    selectMatch(best);
-                }
-            }
-        }, 250);
-    });
-
-    // Close autocomplete when clicking/touching outside safely
-    const hideSuggestionsOnOutside = (e) => {
-        if (!addressInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+    // Close autocomplete when clicking outside
+    document.addEventListener("click", (e) => {
+        if (e.target !== addressInput && e.target !== suggestionsList) {
             suggestionsList.classList.add("hidden");
         }
-    };
-    document.addEventListener("pointerdown", hideSuggestionsOnOutside);
-    document.addEventListener("click", hideSuggestionsOnOutside);
+    });
 
     // --- 4. CONTACTS DIRECTORY RENDER ---
     function formatPhoneLinks(text) {
@@ -492,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     selectedUnitMeta = {
                         id: section.id,
                         matchedName: `${section.type === 'PHƯỜNG' ? 'Phường' : 'Xã'} ${section.name}`,
-                        fullAddress: getFormattedNewAddress(section.type, section.name, section.district),
+                        fullAddress: `${section.type === 'PHƯỜNG' ? 'Phường' : 'Xã'} ${section.name}, ${section.district}, tỉnh Quảng Ninh`,
                         district: section.district,
                         team: section.team,
                         sectionName: section.name,
