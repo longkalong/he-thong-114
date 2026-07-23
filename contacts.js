@@ -31,8 +31,8 @@ const LEADERSHIP_DATA = [
     "title": "Lãnh Đạo Phòng Cảnh Sát PCCC & CNCH",
     "contacts": [
       {
-        "raw": "- Trưởng phòng: Nguyễn Văn Cường; SĐT: 0982.988.358",
-        "text": "Trưởng phòng: Nguyễn Văn Cường; SĐT: 0982.988.358"
+        "raw": "- Trưởng phòng: Đại tá Nguyễn Văn Cường; SĐT: 0982.988.358",
+        "text": "Trưởng phòng: Đại tá Nguyễn Văn Cường; SĐT: 0982.988.358"
       },
       {
         "raw": "- Phó trưởng phòng: Tiêu Văn Tiến; SĐT: 0936.246.198",
@@ -43,8 +43,8 @@ const LEADERSHIP_DATA = [
         "text": "Phó trưởng phòng: Hoàng Mạnh Hùng; SĐT: 0912.828.487"
       },
       {
-        "raw": "- Phó trưởng phòng: Vũ Bắc Cường; SĐT: 0912.045.619",
-        "text": "Phó trưởng phòng: Vũ Bắc Cường; SĐT: 0912.045.619"
+        "raw": "- Phó trưởng phòng: Vũ Bắc Cường; SĐT: 0931.287.686",
+        "text": "Phó trưởng phòng: Vũ Bắc Cường; SĐT: 0931.287.686"
       },
       {
         "raw": "- Phó trưởng phòng: Ngô Hải Nam; SĐT: 0904.479.007",
@@ -1190,8 +1190,8 @@ const SECTIONS_DATA = [
         "raw_title": "6.1. Cảnh sát PCCC và CNCH",
         "contacts": [
           {
-            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890",
-            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 09361995890"
+            "raw": "- Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589",
+            "text": "Đội trưởng: Nguyễn Văn Nha; SĐT: 0936199589"
           },
           {
             "raw": "- Phó đội trưởng: Nguyễn Đức Trường; SĐT: 0973.288.269",
