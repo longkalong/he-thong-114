@@ -3,31 +3,6 @@
 
 const LEADERSHIP_DATA = [
   {
-    "title": "Ban Giám Đốc Công An Tỉnh",
-    "contacts": [
-      {
-        "raw": "- Giám đốc: Thiếu tướng Nguyễn Tiến Trung; SĐT: 0902.168.361",
-        "text": "Giám đốc: Thiếu tướng Nguyễn Tiến Trung; SĐT: 0902.168.361"
-      },
-      {
-        "raw": "- Phó Giám đốc: Đại tá Vũ Thanh Tùng; SĐT: 0898.518.998",
-        "text": "Phó Giám đốc: Đại tá Vũ Thanh Tùng; SĐT: 0898.518.998"
-      },
-      {
-        "raw": "- Phó Giám đốc: Đại tá Nguyễn Thuận; SĐT: 0936.651.999",
-        "text": "Phó Giám đốc: Đại tá Nguyễn Thuận; SĐT: 0936.651.999"
-      },
-      {
-        "raw": "- Phó Giám đốc: Đại tá Lê Hồng Vân; SĐT: 0904.170.566",
-        "text": "Phó Giám đốc: Đại tá Lê Hồng Vân; SĐT: 0904.170.566"
-      },
-      {
-        "raw": "- Phó Giám đốc: Đại tá Vũ Trung Hiếu; SĐT: 0904.170.566",
-        "text": "Phó Giám đốc: Đại tá Vũ Trung Hiếu; SĐT: 0904.170.566"
-      }
-    ]
-  },
-  {
     "title": "Lãnh Đạo Phòng Cảnh Sát PCCC & CNCH",
     "contacts": [
       {
